@@ -62,6 +62,7 @@ class NoticiasController extends Controller
 
     public function update(Request $request, Noticia $noticia)
     {
+       
         $request->validate([
             'titulo' => 'required|string',
             'descricao' => 'required|string',

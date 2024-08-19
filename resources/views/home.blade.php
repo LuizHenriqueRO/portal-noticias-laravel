@@ -27,10 +27,10 @@
                             <td scope="row">{{ $noticia->id }}</td>
                             <td>{{ $noticia->titulo }}</td>
                             <td>{{ $noticia->descricao }}</td>
-                            <td><a href="{{ '$noticia->url' }}">{{ $noticia->url }}</a></td>
+                            <td><a href="{{ $noticia->url }}">{{ $noticia->url }}</a></td>
                             <td>
                                 <form action="{{ route('noticias.destroy', $noticia->id) }}" method="POST">
-                                    <a href="{{ route('noticias.show', $noticia->url) }}" class="me-2 btn btn-secondary"><i class="bi bi-eye"></i></a>
+                                    <a href="{{ route('noticias.show', $noticia->id) }}" class="me-2 btn btn-secondary"><i class="bi bi-eye"></i></a>
                                     <a href="{{ route('noticias.edit', $noticia->id) }}" class="me-2 btn btn-primary"><i class="bi bi-pencil-square"></i></a>
                                     @csrf
                                     @method('DELETE')

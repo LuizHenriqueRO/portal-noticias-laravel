@@ -16,7 +16,7 @@
         </div>
         @endif
 
-        <form action="{{ route('noticias.store', $noticia) }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('noticias.update', $noticia) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
             <div class="mb-3">
