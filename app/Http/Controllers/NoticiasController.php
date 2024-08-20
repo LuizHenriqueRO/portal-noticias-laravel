@@ -10,8 +10,13 @@ class NoticiasController extends Controller
     public function index(Request $request)
     {
         $filters = $request->only(['title','description']);
-        $noticias = Noticia::filter($filters)->paginate(1)->withQueryString();
-        return view('dashboard', compact('noticias'));
+        $noticias = Noticia::filter($filters)->paginate(10)->withQueryString();
+
+        // Buscar as 3 últimas notícias para o carousel
+        $ultimasNoticias = Noticia::orderBy('created_at', 'desc')->take(3)->get();
+
+        // Passa tanto as notícias paginadas quanto as últimas notícias para a view
+        return view('dashboard', compact('noticias', 'ultimasNoticias'));
     }
 
     public function search(Request $request)
@@ -24,9 +29,12 @@ class NoticiasController extends Controller
 
     public function home()
     {
-        $noticias = Noticia::all();
-        return view('home', compact('noticias'));
+        $noticias = Noticia::all(); // Todas as notícias
+        $ultimasNoticias = Noticia::orderBy('created_at', 'desc')->take(3)->get(); // As 3 últimas notícias para o carousel
+
+        return view('home', compact('noticias', 'ultimasNoticias'));
     }
+
 
     public function create()
     {

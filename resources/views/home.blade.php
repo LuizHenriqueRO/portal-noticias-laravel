@@ -5,71 +5,65 @@
         </h2>
     </x-slot>
 
-    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-        <ol class="carousel-indicators">
-          <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-          <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-          <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-        </ol>
-        <div class="carousel-inner">
-          <div class="carousel-item active">
-            <img src="{{asset('img\121194.jpg')}}" class="d-block w-100" alt="...">
-          </div>
-          <div class="carousel-item">
-            <img src="..." class="d-block w-100" alt="...">
-          </div>
-          <div class="carousel-item">
-            <img src="..." class="d-block w-100" alt="...">
-          </div>
-        </div>
-        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-          <span class="sr-only">Previous</span>
-        </a>
-        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-          <span class="carousel-control-next-icon" aria-hidden="true"></span>
-          <span class="sr-only">Next</span>
-        </a>
-      </div>
+    <div class="container mx-auto px-4">
+        @if (!$ultimasNoticias->isEmpty())
+            <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+                <ol class="carousel-indicators">
+                    @foreach ($ultimasNoticias as $index => $noticia)
+                        <li data-target="#carouselExampleIndicators" data-slide-to="{{ $index }}"
+                            class="{{ $index == 0 ? 'active' : '' }}"></li>
+                    @endforeach
+                </ol>
+                <div class="carousel-inner">
+                    @foreach ($ultimasNoticias as $index => $noticia)
+                        <a href="{{ route('noticias.show', $noticia->id) }}">
+                            <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
+                                <img src="{{ $noticia->url }}" class="d-block w-100" alt="{{ $noticia->titulo }}">
+                                <div class="carousel-caption d-none d-md-block">
+                                    <h5>{{ $noticia->titulo }}</h5>
+                                    <p class="white-text">{{ $noticia->descricao }}</p>
+                                </div>
+                            </div>
+                        </a>
+                    @endforeach
+                </div>
+                <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </div>
+        @endif
+    </div>
 
-    <div class="container">
+    <div class="container mt-5">
         <div class="row mb-4">
             <div class="col-12">
                 @if ($noticias->isEmpty())
-                <p>Não há noticias disponíveis no momento</p>
+                    <p>Não há notícias disponíveis no momento.</p>
                 @else
-                <table class="table align-middle">
-                    <thead>
-                        <tr>
-                            <th scope="col">ID</th>
-                            <th scope="col">Titulo</th>
-                            <th scope="col">Descricao</th>
-                            <th scope="col">URL</th>
-                            <th scope="col">Ações</th>
-                        </tr>
-                    </thead>
-                    <tbody>
+                    <div class="row">
                         @foreach ($noticias as $noticia)
-                        <tr>
-                            <td scope="row">{{ $noticia->id }}</td>
-                            <td>{{ $noticia->titulo }}</td>
-                            <td>{{ $noticia->descricao }}</td>
-                            <td><a href="{{ $noticia->url }}">{{ $noticia->url }}</a></td>
-                            <td>
-                                <form action="{{ route('noticias.destroy', $noticia->id) }}" method="POST">
-                                    <a href="{{ route('noticias.show', $noticia->id) }}" class="me-2 btn btn-secondary"><i class="bi bi-eye"></i></a>
-                                    <a href="{{ route('noticias.edit', $noticia->id) }}" class="me-2 btn btn-primary"><i class="bi bi-pencil-square"></i></a>
-                                    @csrf
-                                    @method('DELETE')
-                                    <button class="btn btn-danger"><i class="bi bi-trash"></i></button>
-                                </form>
-                            </td>
-                        </tr>
+                            <div class="col-md-4 mb-4">
+                                <a href="{{ route('noticias.show', $noticia->id) }}" style="text-decoration: none;">
+                                    <div class="card">
+                                        <img src="{{ $noticia->url }}" class="card-img-top"
+                                            alt="{{ $noticia->titulo }}">
+                                        <div class="card-body">
+                                            <h5 class="card-title">{{ $noticia->titulo }}</h5>
+                                            <p class="card-text">{{ $noticia->descricao }}</p>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
                         @endforeach
-                    </tbody>
-                </table>
+                    </div>
                 @endif
             </div>
         </div>
     </div>
+
 </x-app-layout>

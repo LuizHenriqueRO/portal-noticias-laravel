@@ -44,6 +44,7 @@ class Noticia extends Model
             'id' => $this->id,
             'itulo' => $this->titulo,
             'descricao' => $this->descricao,
-        ];
+        ]; 
     }
 }
+
